@@ -1,6 +1,6 @@
 const express = require("express");
 const { port } = require("./config");
-const flights = require("./routes/flights");
+const flights = require("./routes/flightsRouter");
 
 const app = express();
 
