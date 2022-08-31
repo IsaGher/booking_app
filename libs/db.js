@@ -23,9 +23,19 @@ const connection = async ()=>{
 };
 
 const query = async (sql, values)=>{
-    const result = await (await connection()).query(sql, values);
-    console.log(result);
-    return result;
+
+    try {
+        const result = await (await connection()).query(sql, values);
+        return{
+            success: true,
+            data: result[0]
+        };
+    } catch (error) {
+        return{
+            success: false,
+            data: error
+        };
+    }
 };
 
 module.exports={
