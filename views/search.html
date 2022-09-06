@@ -4,9 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Search flights</title>
 </head>
 <body>
     <h1>Busqueda</h1>
+
+    <script>
+        function getData(){
+            fetch("/api/flights").then(response =>{
+                if(response.ok){
+                    return response.json();
+                }
+                return response.json();
+            })
+            .then(console.log)
+            .catch(console.log);
+        };
+        getData();
+
+    </script>
 </body>
 </html>
