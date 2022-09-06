@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create flight</title>
+</head>
+<body>
+    <h1>Create a Flight</h1>
+    <form id="create_form">
+        <input type="text" name="origen" id="origen" placeholder="Origen...">
+        <input type="text" name="destino" id="destino" placeholder="Destino...">
+        <input type="datetime-local" name="hora_salida" id="hora_salida">
+        <input type="datetime-local" name="hora_llegada" id="hora_llegada">
+        <input type="number" name="precio" id="precio">
+        <button>Crear</button>
+    </form>
+    
+    <script>
+        const create_form = document.getElementById("create_form");
+
+        create_form.onsubmit = (event)=>{
+            event.preventDefault();
+
+            const {origen, destino, hora_salida, hora_llegada, precio} = create_form;
+
+            const data = {
+                origen: origen.value,
+                destino: destino.value,
+                hora_salida: hora_salida.value,
+                hora_llegada: hora_llegada.value,
+                precio: precio.value
+            };
+
+            fetch("/api/flights",{
+                method: "POST",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response=>response.json())
+            .then(console.log)
+            .catch(console.log);
+        };
+    </script>
+</body>
+</html>
