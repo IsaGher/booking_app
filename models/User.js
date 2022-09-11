@@ -34,6 +34,38 @@ class User{
         };
     };
 
+    //password: contraseña del form, user: consulta del usuario
+    static validateCredentials(password, user){
+        const passwordUser = bcrypt.compareSync(password, user.password);
+
+        if(!passwordUser){
+            return{
+                success:false,
+                message:"Las credenciales son incorrectas"
+            };
+        }
+        delete user.password;
+        return {
+            success:true,
+            message:"Credenciales correctas",
+            data: user
+        };
+    };
+
+    static async getUserByEmail(email){
+        const result = await query("SELECT * FROM users WHERE email = ?", [email]);
+        if(result.success && result.data[0]){
+            return{
+                success:true,
+                data: result.data[0]
+            };
+        }
+        return {
+            success:false,
+            message: "No se encuentra registrado"
+        };
+    }
+
     static async create(data){
         const result = await query("INSERT INTO users(??) VALUES(?)",[Object.keys(data), Object.values(data)]);
         if(result.success){

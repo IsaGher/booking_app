@@ -10,8 +10,16 @@ class Auth{
         return getView(res, "auth/signup.html");
     };
 
-    static async login(_,res){
-        return getView(res,"auth/login.html");
+    static async login(req,res){
+        const data = req.body;
+        const user = await User.getUserByEmail(data.email);
+        if(!user.success){
+            return res.status(400).json(user);
+        }
+        const validation = User.validateCredentials(data.password, user.data);
+
+        return res.status(validation.success?200:400).json(validation);
+
     };
 
     static async signup(req,res){
